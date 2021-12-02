@@ -1,7 +1,7 @@
 {
   "name": "shelly1plus-garage",
   "federated-module-name": "Shelly1PlusGarage",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Custom garage door handler powered by a Shelly 1 Plus.",
   "main": "index.js",
   "scripts": {

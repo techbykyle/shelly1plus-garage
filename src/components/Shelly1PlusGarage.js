@@ -13,8 +13,6 @@ const Shelly1PlusGarage = ({tile, mqtt, useMqtt, useMqttSub}) => {
     const is_open_txt = isOpen ? 'Open': 'Closed'
     const style = isOpen ? { color: '#f59598' }: {}
 
-    console.log('device_state', device_state)
-
     if(events === undefined && init_state && 'state' in init_state) {
         if(init_state.state === false) {
             !isOpen && setIsOpen(true)
