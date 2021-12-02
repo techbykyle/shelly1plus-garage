@@ -1,41 +1,45 @@
-import React, { useEffect } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { shallowEqual, useSelector } from 'react-redux'
 
-const Shelly1PlusGarage = ({tile, mqtt, updateTile, useMqtt, useMqttSub}) => {
+const Shelly1PlusGarage = ({tile, mqtt, useMqtt, useMqttSub}) => {
 
     const device_state = useSelector(state => state.DeviceController.data[tile.id], shallowEqual) || {}
-    const dispatch = useDispatch()
     const mqtt_client = useMqtt()
     const events = device_state[mqtt['events']]?.params
     const init_state = device_state[`${tile.id}/rpc`]?.result
-    const isOpen = device_state.isOpen
+    const [isOpen, setIsOpen] = useState(false)
+    const [isOpening, setIsOpening] = useState(false)
+    const [isClosing, setIsClosing] = useState(false)
     const is_open_txt = isOpen ? 'Open': 'Closed'
     const style = isOpen ? { color: '#f59598' }: {}
 
+    console.log('device_state', device_state)
+
     if(events === undefined && init_state && 'state' in init_state) {
         if(init_state.state === false) {
-            updateTile(dispatch, tile.id, {isOpen: true})
+            !isOpen && setIsOpen(true)
         }   
         if(init_state.state === true) {
-            updateTile(dispatch, tile.id, {isOpen: false})
+            isOpen && setIsOpen(false)
         }   
     }
  
     if(events && 'input:0' in events) {
         if(events['input:0'].state === false) {
-            updateTile(dispatch, tile.id, {isOpen: true})
+            !isOpen && setIsOpen(true)
         }
         if(events['input:0'].state === true) {
-            updateTile(dispatch, tile.id, {isOpen: false, isClosing: false})
+            isOpen && setIsOpen(false)
+            isClosing && setIsClosing(false)
         }
     }
 
     if(events && 'switch:0' in events) {
         if(isOpen && events['switch:0'].output === true) {
-            updateTile(dispatch, tile.id, {isClosing: true})
+            !isClosing && setIsClosing(true)
         }
         if(!isOpen && events['switch:0'].output === true) {
-            updateTile(dispatch, tile.id, {isOpening: true})
+            !isOpening && setIsOpening(true)
         }
     }
  
@@ -43,12 +47,12 @@ const Shelly1PlusGarage = ({tile, mqtt, updateTile, useMqtt, useMqttSub}) => {
     useMqttSub(mqtt_client, `${tile.id}/rpc`, tile.id)
 
     useEffect(() => {
-        if(device_state.isOpening) {
+        if(isOpening) {
             setTimeout(() => {
-                updateTile(dispatch, tile.id, {isOpening: false})
+                isOpening && setIsOpening(false)
             }, 15000)
         }
-    }, [device_state.isOpening])
+    }, [isOpening])
 
     useEffect(() => {
         if(mqtt_client && 'publish' in mqtt_client) {
@@ -60,9 +64,9 @@ const Shelly1PlusGarage = ({tile, mqtt, updateTile, useMqtt, useMqttSub}) => {
         mqtt_client.publish(mqtt['state'], `{"id":0, "src":"notused", "method":"Switch.Toggle", "params":{"id":0}}`)
     }
 
-    if(device_state.isOpening || device_state.isClosing) {
+    if(isOpening || isClosing) {
 
-        const door_state = device_state.isOpening ? 'Opening': 'Closing'
+        const door_state = isOpening ? 'Opening': 'Closing'
 
         return <div className="txt_center"><br />
             <div className="button_loader button_loader_l"></div>
