@@ -30,8 +30,8 @@ module.exports = {
             name: pkg["federated-module-name"],
             filename: 'remoteEntry.js',
             shared: { 
-                react: { requiredVersion: "16.13.1", singleton: true, eager: true }, 
-                "react-dom": { requiredVersion: "16.13.1", singleton: true, eager: true }, 
+                react: { requiredVersion: "16.14.0", singleton: true, eager: true }, 
+                "react-dom": { requiredVersion: "16.14.0", singleton: true, eager: true }, 
                 "react-redux": { requiredVersion: "7.2.3", singleton: true, eager: true } 
             },
             exposes

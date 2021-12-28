@@ -1,7 +1,7 @@
 {
   "name": "shelly1plus-garage",
   "federated-module-name": "Shelly1PlusGarage",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Custom garage door handler powered by a Shelly 1 Plus.",
   "main": "index.js",
   "scripts": {
@@ -15,17 +15,17 @@
   },
   "license": "Unlicense",
   "devDependencies": {
-    "webpack-dev-server": "4.3.1"
+    "webpack-dev-server": "4.6.0"
   },
   "dependencies": {
     "@babel/core": "7.13.8",
     "@babel/preset-react": "7.10.4",
     "babel-loader": "8.1.0",
     "html-webpack-plugin": "5.3.1",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
     "react-redux": "7.2.3",
     "webpack": "5.58.1",
-    "webpack-cli": "4.9.0"
+    "webpack-cli": "4.9.1"
   }
 }
