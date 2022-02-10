@@ -79,7 +79,7 @@ const Shelly1PlusGarage = ({tile, mqtt, useMqtt, useMqttSub}) => {
                     onClick={handleClick} 
                     title={`Garage Door is: ${is_open_txt}`}
                     style={style} 
-                    className="material-icons f75 pointer"
+                    className="material-icons f125 pointer"
                 >sensor_door</span>
             </div>
             <div style={style}>{is_open_txt}</div>
